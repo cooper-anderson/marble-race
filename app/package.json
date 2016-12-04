@@ -1,0 +1,21 @@
+{
+  "name": "marble-race",
+  "productName": "Marble Race",
+  "version": "0.1.0",
+  "main": "src/common/js/main.js",
+  "dependencies": {
+    "highcharts": "latest",
+    "electron": "latest",
+    "jquery": "latest",
+    "seedrandom": "latest",
+    "sigma": "latest",
+    "clone": "latest"
+  },
+  "scripts": {
+    "start": "/Applications/Electron.app/Contents/MacOS/Electron ./"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cooper-anderson/marble-race.git"
+  }
+}
