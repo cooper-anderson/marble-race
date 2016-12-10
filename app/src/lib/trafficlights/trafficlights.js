@@ -86,12 +86,12 @@ function addTrafficLight(name, color, action) {
 	$("div.traffic-light-styles").append(
 		`<style>
 			:hover .traffic-light-${name} {
-				background-color: ${color} !important
+				background-color: ${color}/* !important*/;
 			}
 		</style>
 	`);
 	$("div.traffic-lights").append(`
-		<button class="traffic-light-${name}"></button>
+		<button class="traffic-light traffic-light-${name}"></button>
 	`);
 	$(`button.traffic-light-${name}`).on("click", action);
 }
