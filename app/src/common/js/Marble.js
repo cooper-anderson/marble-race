@@ -72,32 +72,54 @@ var sigma = new Sigma({
 	}
 });
 
-let inputs = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']/*, 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];*/
-let ann = new NeuralNetwork(inputs, inputs, [8, 8, 8, 8, 8, 8, 8]/*[26, 26, 26, 26, 26, 26, 26]*/);
+let inputs = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']//, 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+let ann = new NeuralNetwork(inputs, [{name: 'r', color: Color.colors.material.blue[0]}, {name: 'g', color: Color.colors.material.blue[0]}, {name: 'b', color: Color.colors.material.blue[0]}], []/*[26, 26, 26, 26, 26, 26, 26]*/);
 //let values = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+let values = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 let keyCodeBits = [0, 0, 0, 0, 0, 0, 0, 0];
-let drawSynapses = true, drawLabels = false, graphColor=undefined, clearEntry = true;
-ann.Update(keyCodeBits, sigma, drawSynapses, drawLabels, graphColor);
+let drawSynapses = 2, drawLabels = false, graphColor=Color.colors.material.blue[0], clearEntry = false;
+let output = {}
+function setRGB() {
+	let color = ann.Think(keyCodeBits, sigma, drawSynapses, drawLabels, graphColor);
+	output = color;
+	//graphColor = new Color(color);
+	//ann.Think(values, sigma, drawSynapses, drawLabels, graphColor)
+	return new Color(color);
+}
+function clamp(value, min, max) {
+	if (value < min) {
+		return min;
+	} else if (value > max) {
+		return max;
+	}
+	return value;
+}
+let rgb = setRGB();
 
 $(document).on("keydown", function(event) {
 	let keyCode = event.keyCode.toString(2);
 	keyCode = '0'.repeat(8 - keyCode.length) + keyCode;
 	keyCodeBits = keyCode.split("");
 	for (let i in keyCodeBits) {
-		keyCodeBits[i] = Number(keyCodeBits[i]);
+		keyCodeBits[i] = /*parseInt(*/Number(keyCodeBits[i])/*, 16)*/;
 	}
-	ann.Update(keyCodeBits, sigma, drawSynapses, drawLabels, graphColor);
+	rgb = setRGB();
 	/*let key = inputs.indexOf(event.key);
 	if (key != -1) {
-		values[key] = 1
-		ann.Update(values, sigma, drawSynapses, drawLabels, graphColor);
+		values[key] = clamp(values[key] + .1, 0, 1);
+		rgb = setRGB();
 	}*/
 });
 
 $(document).on("keyup", function(event) {
 	if (clearEntry) {
 		keyCodeBits = [0, 0, 0, 0, 0, 0, 0, 0];
-		ann.Update(keyCodeBits, sigma, drawSynapses, drawLabels, graphColor);
+		rgb = setRGB();
+		/*let key = inputs.indexOf(event.key);
+		if (key != -1) {
+			values[key] = 0
+			rgb = setRGB();
+		}*/
 	}
 	/*let key = inputs.indexOf(event.key);
 	 if (key != -1) {

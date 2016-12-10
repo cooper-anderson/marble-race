@@ -35,7 +35,9 @@ class Color {
 	}
 
 	static parse(color) {
-		if (color[0] == '#') {
+		if (Array.isArray(color)) {
+			return new Color(color[0], color[1], color[2], color[3]);
+		} else if (color[0] == '#') {
 			return new Color(color);
 		} else if (color[0] == 'r' && color[1] == 'g' && color[2] == 'b') {
 			color = color.split("(")[1].split(")")[0].replace(/\s/g, '').split(",");
